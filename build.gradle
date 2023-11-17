@@ -379,9 +379,9 @@ publishing {
 }
 
 release {
-//    (getProperty("git") as net.researchgate.release.GitAdapter.GitConfig).apply {
-//        requireBranch = expectedBranch
-//    }
+    (getProperty("git") as net.researchgate.release.GitAdapter.GitConfig).apply {
+        requireBranch = expectedBranch
+    }
 
     newVersionCommitMessage = "[skip ci] [Bot] Prepare for next release cycle"
 }
