@@ -44,7 +44,7 @@ plugins {
     // Copied from the Setup Instructions in GCP Artifact Registry:
     id "com.google.cloud.artifactregistry.gradle-plugin" version "2.2.0"
 
-    id("net.researchgate.release") version "2.8.1"
+    id "net.researchgate.release" version "2.8.1"
 }
 
 group = "io.aiven"
@@ -96,6 +96,8 @@ ext {
     testcontainersVersion = "1.19.1"
     wireMockVersion = "2.35.0"
     mockitoVersion = "5.2.0"
+
+    expectedBranch = project
 }
 
 distributions {
@@ -374,4 +376,12 @@ publishing {
             url "artifactregistry://europe-north1-maven.pkg.dev/restor2-tools/restor2-mvn"
         }
     }
+}
+
+release {
+//    (getProperty("git") as net.researchgate.release.GitAdapter.GitConfig).apply {
+//        requireBranch = expectedBranch
+//    }
+
+    newVersionCommitMessage = "[skip ci] [Bot] Prepare for next release cycle"
 }
