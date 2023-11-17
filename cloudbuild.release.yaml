@@ -1,0 +1,36 @@
+steps:
+  - name: gradle:7.4.2-jdk17
+    entrypoint: 'bash'
+    args:
+      - -c
+      - |
+        echo "$$SSH_KEY" > /root/.ssh/id_rsa
+        chmod 400 /root/.ssh/id_rsa
+        
+        ssh-keyscan -t rsa github.com >> /root/.ssh/known_hosts
+        
+        git config --global user.name restor-bot
+        git config --global user.email restor-bot@restor.eco
+        git branch -m $BRANCH_NAME
+        git remote set-url origin git@github.com:Restor-Foundation/gcs-connector-for-apache-kafka.git
+    secretEnv: ['SSH_KEY']
+    volumes:
+      - name: 'ssh'
+        path: /root/.ssh
+
+  - name: gradle:7.4.2-jdk17
+    entrypoint: gradle
+    args: [ 'release', '-PartifactRepoUrl=$_MAVEN_REPO_URL', '-PexpectedBranch=$BRANCH_NAME' ]
+    volumes:
+      - name: 'ssh'
+        path: /root/.ssh
+
+options:
+  machineType: N1_HIGHCPU_8
+
+# https://docs.github.com/en/authentication/connecting-to-github-with-ssh/managing-deploy-keys#deploy-keys
+availableSecrets:
+  secretManager:
+    - versionName: projects/$PROJECT_ID/secrets/gcs-connector-deploy-token/versions/latest
+      env: 'SSH_KEY'
+

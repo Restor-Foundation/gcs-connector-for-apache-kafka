@@ -1,0 +1,7 @@
+steps:
+  - name: gradle:7.4.2-jdk17
+    entrypoint: gradle
+    args: ['test']
+
+options:
+  machineType: N1_HIGHCPU_8
