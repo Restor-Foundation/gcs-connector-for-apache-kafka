@@ -39,6 +39,10 @@ plugins {
     id "pmd"
 
     id "com.github.spotbugs" version "5.1.3"
+
+    // https://imperceptiblethoughts.com/shadow/introduction/
+    // Used to build a fat jar with all dependencies
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
 group = "io.aiven"
@@ -334,6 +338,12 @@ jar {
                 'Version': "${project.version}"
         )
     }
+}
+
+shadowJar {
+    archiveBaseName.set("gcs-connector-for-apache-kafka")
+    archiveClassifier.set("shadow")
+    archiveVersion.set("${project.version}")
 }
 
 javadoc {
