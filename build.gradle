@@ -379,7 +379,7 @@ publishing {
 }
 
 release {
-    git.requireBranch = expectedBranch
+    git.requireBranch = "main"
 //    (getProperty("git") as net.researchgate.release.GitAdapter.GitConfig).apply {
 //        requireBranch = expectedBranch
 //    }
